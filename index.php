@@ -1,3 +1,11 @@
+<?php
+require_once('./server/services/TaskService.php');
+
+$service = new TaskService();
+$tasks = $service->getAll();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,12 +21,35 @@
 
   <div class="container">
     <div class="todo-app">
+
+      <?php if (isset($_COOKIE['error'])): ?>
+        <div class="error-card"> 
+          <div class="error-icon">!</div>
+          <div class="error-message"> 
+               <stong>Error:</stong> <?= $_COOKIE['error']; ?>
+          </div>   
+        </div>  
+        <?php unset($_COOKIE['error']); ?>  
+     <?php endif; ?>
+
+
       <h2>ToDo List <img src="img/icon.png"></h2>
-      <div class="row">
-        <input type="text" id="input-box" placeholder="Add your text">
-        <button onclick="addTask()">Add</button>
-      </div>
+      <form method="post" action="" class="row">
+        <input type="text" name="task" id="input-box" placeholder="Add your text">
+        <button type="submit" formaction="./server/operations/Add.php">Add</button>
+      </form>
+
       <ul id="list-container">
+        <?php foreach ($tasks as $task): ?>
+          <form method="post">
+            <li>
+              <p> <?= $task['description'] ?> </p>
+            </li>
+
+            <button type="submit" formaction="./server/operations/Add.php">Add</button>
+          </form>
+
+        <?php endforeach; ?>
         <!-- <li class="checked">Task 1</li>
         <li>Task 2</li>
         <li>Task 3</li> -->

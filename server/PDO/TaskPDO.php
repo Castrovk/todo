@@ -24,7 +24,7 @@ class taskPDO
 
     public function getAll(): array
     {
-        $sql = "SELECT id, description, done FROM task";
+        $sql = "SELECT id, description, done FROM tasks";
         $stmt = $this->pdo->query($sql);
 
         return $stmt->fetchAll();
